@@ -10,6 +10,8 @@ namespace WindowsFormsApplication1
         public static string myUserId;
         public static string cookieS1="";
         public static string RT="";
+        public static string username = "";
+        public static string password = "";
         public static int logged = 0;
         public static Dictionary<int, badooUser> chatUsers = new Dictionary<int, badooUser>();
         public static Dictionary<int, badooUser> favUsers = new Dictionary<int, badooUser>();

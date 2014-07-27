@@ -665,11 +665,16 @@ namespace WindowsFormsApplication1
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            statusBar.Text = "Loading ...";
             LoadSettings();
             LoadPreMessages();
             getRT();
             System.Threading.Thread.Sleep(3000);
-            doLogin("jk.man@seznam.cz", "231091", badooData.RT);
+            if (badooData.username != "" && badooData.password != "")
+            {
+                statusBar.Text = "Logging in ...";
+                doLogin(badooData.username, badooData.password, badooData.RT);
+            }
             /*
             if (badooData.cookieS1 == "")
             {
@@ -724,6 +729,8 @@ namespace WindowsFormsApplication1
             ModifyRegistry myRegistry = new ModifyRegistry();
             myRegistry.Write("RT", badooData.RT);
             myRegistry.Write("S1", badooData.cookieS1);
+            myRegistry.Write("BU", badooData.username);
+            myRegistry.Write("BP", badooData.password);
             myRegistry.Write("PC", pagesCount.Value.ToString());
             myRegistry.Write("MS", badooData.messagesSent.ToString());
             myRegistry.Write("RL", (refreshCheck.Checked==true)?"1":"0");
@@ -735,6 +742,10 @@ namespace WindowsFormsApplication1
                 badooData.RT = myRegistry.Read("RT");*/
             /*if (myRegistry.Read("S1") != null)
                 badooData.cookieS1 = myRegistry.Read("S1");*/
+            if (myRegistry.Read("BU") != null)
+                badooData.username = myRegistry.Read("BU");
+            if (myRegistry.Read("BP") != null)
+                badooData.password = myRegistry.Read("BP");
             if (myRegistry.Read("PC") != null)
                 pagesCount.Value = Int32.Parse(myRegistry.Read("PC"));
             if (myRegistry.Read("MS") != null)
@@ -760,7 +771,9 @@ namespace WindowsFormsApplication1
                 if (loginForm.userName != "" && loginForm.password!="")
                 {
                     statusBar.Text = "Trying to log in";
-                    doLogin(loginForm.userName, loginForm.password, badooData.RT);
+                    badooData.username = loginForm.userName;
+                    badooData.password = loginForm.password;
+                    doLogin(badooData.username, badooData.password , badooData.RT);
                 }
             }
         }
